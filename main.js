@@ -29,4 +29,64 @@ function calcularPropina() {
 
   const resultadoDiv = document.getElementById("resultado");
   resultadoDiv.style.display = "block";
+
+ }
+
+// Array de propinas disponibles
+const propinasDisponibles = [
+  { porcentaje: 10, descripcion: "Buen servicio (10%)" },
+  { porcentaje: 15, descripcion: "Servicio estándar (15%)" },
+  { porcentaje: 20, descripcion: "Excelente servicio (20%)" },
+  { porcentaje: 25, descripcion: "Servicio excepcional (25%)" }
+];
+
+//Se agrega el evento 'click' al botón de calcular
+btnCalcular.addEventListener("click", calcularPropina);
+
+//Función que se ejecuta al hacer clic en el botón de calcular
+function calcularPropina() {
+  //obtengo el monto total y el porcentaje de propina del formulario
+  const montoTotal = parseFloat(document.getElementById("montoTotal").value);
+  const porcentajePropina = parseInt(document.getElementById("porcentajePropina").value);
+
+  if (isNaN(montoTotal)) {
+    console.log("Por favor, ingresa un monto válido.");
+    return;
+  }//verificación de si el monto total es un número válido, si no, se da ese mensaje
+
+  const propina = (montoTotal * porcentajePropina) / 100;
+  const totalAPagar = montoTotal + propina;
+  //cálculo de la propina y el total a pagar
+
+  //Muestro el resultado en la página
+  document.getElementById("propinaResultado").textContent = `Propina a dejar: $${propina.toFixed(2)}`;
+  document.getElementById("totalResultado").textContent = `Total a pagar: $${totalAPagar.toFixed(2)}`;
+
+//Muestro el resultado en la página con display 
+  const resultadoDiv = document.getElementById("resultado");
+  resultadoDiv.style.display = "block";
+}
+
+
+// Función de Orden Superior: Filter
+function filtrarOpciones(valor) {
+  return valor >= 15; // Filtrar opciones con porcentaje mayor o igual al 15%
+}
+
+// Actualizar las opciones del select con Filter y Include
+function actualizarOpcionesPropina() {
+  const selectPropina = document.getElementById("porcentajePropina");
+  selectPropina.innerHTML = propinasDisponibles
+    .filter(opcion => filtrarOpciones(opcion.porcentaje))
+    .map(opcion => `<option value="${opcion.porcentaje}">${opcion.descripcion}</option>`)
+    .join("");
+}
+
+actualizarOpcionesPropina();
+
+// Capturar entradas mediante prompt para añadir una propina personalizada
+const porcentajePersonalizado = parseFloat(prompt("Ingresa un porcentaje de propina personalizado:"));
+if (!isNaN(porcentajePersonalizado)) {
+  propinasDisponibles.push({ porcentaje: porcentajePersonalizado, descripcion: `${porcentajePersonalizado}%` });
+  actualizarOpcionesPropina();
 }
