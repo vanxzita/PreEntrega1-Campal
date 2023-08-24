@@ -70,10 +70,10 @@ function calcularPropina() {
 
 // Función de Orden Superior: Filter
 function filtrarOpciones(valor) {
-  return valor >= 15; // Filtrar opciones con porcentaje mayor o igual al 15%
+  return valor >= 15; // Filtra opciones con porcentaje mayor o igual al 15%
 }
 
-// Actualizar las opciones del select con Filter y Include
+// Actualizo las opciones del select con Filter y Include
 function actualizarOpcionesPropina() {
   const selectPropina = document.getElementById("porcentajePropina");
   selectPropina.innerHTML = propinasDisponibles
@@ -84,9 +84,25 @@ function actualizarOpcionesPropina() {
 
 actualizarOpcionesPropina();
 
-// Capturar entradas mediante prompt para añadir una propina personalizada
+// Capturo entradas mediante prompt para añadir una propina personalizada
 const porcentajePersonalizado = parseFloat(prompt("Ingresa un porcentaje de propina personalizado:"));
 if (!isNaN(porcentajePersonalizado)) {
   propinasDisponibles.push({ porcentaje: porcentajePersonalizado, descripcion: `${porcentajePersonalizado}%` });
   actualizarOpcionesPropina();
 }
+
+const datosGuardados = localStorage.getItem('datosCalculadora');
+if (datosGuardados) {
+  const datos = JSON.parse(datosGuardados);
+  //Almaceno datos en la variable "Datos"
+}
+
+const datos = {
+  montoTotal: montoTotal,
+  porcentajePropina: porcentajePropina,
+  propina: propina,
+  totalAPagar: totalAPagar
+};
+
+localStorage.setItem('datosCalculadora', JSON.stringify(datos));
+//cuando se haga un cálculo exitoso, la función calcularPropina() guarda los datos en el localStorage
